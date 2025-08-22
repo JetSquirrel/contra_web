@@ -60,10 +60,6 @@ class InputManager {
     setupEventListeners() {
         document.addEventListener('keydown', (e) => {
             this.keys[e.code] = true;
-            // 防止页面滚动
-            if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space'].includes(e.code)) {
-                e.preventDefault();
-            }
         });
         
         document.addEventListener('keyup', (e) => {
@@ -75,13 +71,18 @@ class InputManager {
         return !!this.keys[keyCode];
     }
     
-    // 获取方向输入
+    // 获取方向输入 (支持 WASD 和方向键)
     getDirection() {
         let x = 0, y = 0;
-        if (this.isPressed('ArrowLeft')) x -= 1;
-        if (this.isPressed('ArrowRight')) x += 1;
-        if (this.isPressed('ArrowUp')) y -= 1;
-        if (this.isPressed('ArrowDown')) y += 1;
+        if (this.isPressed('ArrowLeft') || this.isPressed('KeyA')) x -= 1;
+        if (this.isPressed('ArrowRight') || this.isPressed('KeyD')) x += 1;
+        if (this.isPressed('ArrowUp') || this.isPressed('KeyW')) y -= 1;
+        if (this.isPressed('ArrowDown') || this.isPressed('KeyS')) y += 1;
         return { x, y };
+    }
+    
+    // 检查是否按下跳跃键 (W键或X键)
+    isJumpPressed() {
+        return this.isPressed('KeyW') || this.isPressed('KeyX');
     }
 }

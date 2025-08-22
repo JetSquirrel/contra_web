@@ -122,7 +122,7 @@ class Game {
         this.enemyManager.update(this.player, this.bulletManager);
         
         // 更新Boss
-        this.bossManager.update(this.player, this.bulletManager);
+        this.bossManager.update(this.player, this.bulletManager, this.scrollOffset);
         
         // 处理碰撞
         this.handleCollisions();

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Boss Image</title>
+</head>
+<body>
+    <canvas id="canvas" width="80" height="100"></canvas>
+    <br>
+    <a id="download" download="boss.png">Download Boss Image</a>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 紫色背景
+        ctx.fillStyle = '#800080';
+        ctx.fillRect(0, 0, 80, 100);
+        
+        // 白色边框
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(2, 2, 76, 96);
+        
+        // BOSS文字
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('BOSS', 40, 55);
+        
+        // 创建下载链接
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            document.getElementById('download').href = url;
+        });
+    </script>
+</body>
+</html>

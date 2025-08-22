@@ -59,14 +59,14 @@ class Player extends Sprite {
             
             // 移动逻辑
             if (direction.x > 0) { // 向右
-                if (this.settings.bossAppear || this.x <= this.settings.screenWidth / 2) {
+                if (this.x < this.settings.screenWidth / 2 || this.settings.bossAppear) {
                     this.x += this.settings.playerSpeed;
                 } else {
                     // 屏幕滚动
                     this.settings.screenRolling = true;
                 }
             } else { // 向左
-                this.x = Math.max(0, this.x - this.settings.playerSpeed);
+                this.x -= this.settings.playerSpeed;
                 this.settings.screenRolling = false;
             }
         } else {
@@ -81,8 +81,8 @@ class Player extends Sprite {
             };
         }
         
-        // 跳跃
-        if (inputManager.isPressed('KeyX') && this.isOnGround) {
+        // 跳跃 - W键或X键都可以跳跃
+        if (inputManager.isJumpPressed() && this.isOnGround) {
             this.jump();
         }
         
@@ -106,7 +106,10 @@ class Player extends Sprite {
         }
         
         // 限制在屏幕内
-        this.x = Utils.clamp(this.x, 0, this.settings.screenWidth - this.width);
+        if (this.x < 0) this.x = 0;
+        if (this.x > this.settings.screenWidth - this.width) {
+            this.x = this.settings.screenWidth - this.width;
+        }
     }
     
     updateAnimation() {
@@ -148,7 +151,7 @@ class Player extends Sprite {
     
     shoot() {
         if (this.canShoot()) {
-            this.shootCooldown = 8; // 射击冷却时间
+            this.shootCooldown = 4; // 减少射击冷却时间
             return true;
         }
         return false;

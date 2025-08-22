@@ -34,6 +34,9 @@ class Settings {
         
         // 地面Y坐标
         this.groundY = 380;
+        
+        // 地图设置
+        this.mapLength = this.screenWidth * 3; // 地图总长度
     }
     
     // 增加难度

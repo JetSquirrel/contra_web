@@ -30,22 +30,41 @@ class Boss extends Sprite {
         this.animationFrame = 0;
         this.animationTimer = 0;
         
-        // 创建Boss图像
-        this.createBossImages();
-        
         // 设置初始位置
         this.y = settings.groundY - this.height;
+        
+        // 创建Boss图像
+        this.createBossImages();
     }
     
     createBossImages() {
-        this.images = {
-            idle: Utils.createRect(this.width, this.height, '#800080'),
-            walk1: Utils.createRect(this.width, this.height, '#a000a0'),
-            walk2: Utils.createRect(this.width, this.height, '#600060'),
-            jump: Utils.createRect(this.width, this.height, '#ff00ff'),
-            attack: Utils.createRect(this.width, this.height, '#ff8000')
+        this.placeholderImage = this.createBossPlaceholder();
+        this.image = this.placeholderImage;
+        
+        this.bossImage = new Image();
+        this.bossImage.onload = () => {
+            this.image = this.bossImage;
         };
-        this.image = this.images.idle;
+        this.bossImage.src = 'assets/boss.png';
+    }
+    
+    createBossPlaceholder() {
+        const canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+        const ctx = canvas.getContext('2d');
+        
+        // 绘制Boss占位符
+        ctx.fillStyle = '#800080';
+        ctx.fillRect(0, 0, this.width, this.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(5, 5, this.width - 10, this.height - 10);
+        ctx.fillStyle = '#000000';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('BOSS', this.width / 2, this.height / 2);
+        
+        return canvas;
     }
     
     update(player, bulletManager) {
@@ -204,20 +223,7 @@ class Boss extends Sprite {
     }
     
     updateAnimation() {
-        if (['attack1', 'attack2'].includes(this.aiState)) {
-            this.image = this.images.attack;
-        } else if (!this.isOnGround) {
-            this.image = this.images.jump;
-        } else if (Math.abs(this.vx) > 0.1) {
-            this.animationTimer++;
-            if (this.animationTimer >= 20) {
-                this.animationTimer = 0;
-                this.animationFrame = (this.animationFrame + 1) % 2;
-                this.image = this.animationFrame === 0 ? this.images.walk1 : this.images.walk2;
-            }
-        } else {
-            this.image = this.images.idle;
-        }
+        // 动画更新，保持当前图片
     }
     
     updateTimers() {
@@ -329,9 +335,10 @@ class BossManager {
         this.bossSpawned = false;
     }
     
-    update(player, bulletManager) {
-        // 检查是否应该生成Boss
-        if (!this.bossSpawned && this.settings.enemiesKilled >= 10) {
+    update(player, bulletManager, scrollOffset) {
+        // 检查是否应该生成Boss - 当地图滚动到最后时
+        const mapLength = this.settings.screenWidth * 3; // 地图总长度
+        if (!this.bossSpawned && scrollOffset >= mapLength) {
             this.spawnBoss();
         }
         

@@ -25,6 +25,9 @@ class Enemy extends Sprite {
         // 设置初始位置在地面上
         this.y = settings.groundY - this.height;
         this.vx = this.direction * this.speed;
+        
+        // 创建占位符图片
+        this.placeholderImage = this.createEnemyPlaceholder();
     }
     
     getInitialHP() {
@@ -191,10 +194,7 @@ class Enemy extends Sprite {
             if (this.walkAnimationTimer >= 15) {
                 this.walkAnimationTimer = 0;
                 this.walkAnimationFrame = (this.walkAnimationFrame + 1) % 2;
-                this.image = this.walkAnimationFrame === 0 ? this.images.walk1 : this.images.walk2;
             }
-        } else {
-            this.image = this.images.idle;
         }
     }
     
@@ -236,8 +236,7 @@ class Enemy extends Sprite {
     }
     
     getCurrentSprite() {
-        // 创建一个简单的敌人占位符图片
-        return this.createEnemyPlaceholder();
+        return this.placeholderImage;
     }
     
     createEnemyPlaceholder() {
