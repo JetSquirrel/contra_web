@@ -32,6 +32,10 @@ class Game {
         this.startScreen = document.getElementById('startScreen');
         this.startButton = document.getElementById('startButton');
         
+        // 初始时禁用开始按钮
+        this.startButton.disabled = true;
+        this.startButton.textContent = '加载中...';
+        
         this.startButton.addEventListener('click', () => {
             this.startGame();
         });
@@ -75,6 +79,10 @@ class Game {
             this.enemyManager = new EnemyManager(this.settings, this.assetManager);
             this.bossManager = new BossManager(this.settings, this.assetManager);
             
+            // 启用开始按钮
+            this.startButton.disabled = false;
+            this.startButton.textContent = '开始游戏';
+            
             // 游戏状态改为开始屏幕
             this.gameState = 'start';
             
@@ -83,6 +91,12 @@ class Game {
     }
     
     startGame() {
+        // 检查游戏对象是否已初始化
+        if (!this.player || !this.bulletManager || !this.enemyManager || !this.bossManager) {
+            console.warn('游戏对象尚未初始化，请等待资源加载完成');
+            return;
+        }
+        
         this.gameState = 'playing';
         this.startScreen.style.display = 'none';
         this.settings.reset();
