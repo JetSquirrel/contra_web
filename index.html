@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contra Web Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        #gameContainer {
+            position: relative;
+            border: 2px solid #333;
+        }
+        
+        #gameCanvas {
+            display: block;
+            background: #222;
+        }
+        
+        #gameUI {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 20;
+        }
+        
+        #startButton {
+            background: #ff6600;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        #startButton:hover {
+            background: #ff8833;
+        }
+        
+        #controls {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <canvas id="gameCanvas" width="1200" height="750"></canvas>
+        
+        <div id="gameUI">
+            <div>生命: <span id="lives">3</span></div>
+            <div>分数: <span id="score">0</span></div>
+        </div>
+        
+        <div id="startScreen">
+            <h1>Contra Web Game</h1>
+            <p>使用方向键移动，空格键射击，X键跳跃</p>
+            <button id="startButton">开始游戏</button>
+            <div id="controls">
+                <p>控制说明:</p>
+                <p>← → 左右移动</p>
+                <p>↑ ↓ 上下瞄准</p>
+                <p>空格键 射击</p>
+                <p>X键 跳跃</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/settings.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/assetManager.js"></script>
+    <script src="js/sprite.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/bullet.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/boss.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
